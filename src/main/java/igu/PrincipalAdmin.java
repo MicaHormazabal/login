@@ -1,9 +1,17 @@
 package igu;
 
+import logica.Controladora;
+import logica.Usuario;
+
 public class PrincipalAdmin extends javax.swing.JFrame {
 
-    public PrincipalAdmin() {
+    Controladora control;
+    Usuario user;
+    
+    public PrincipalAdmin(Controladora control, Usuario user) {
         initComponents();
+        this.control = control;
+        this.user = user;
     }
 
     @SuppressWarnings("unchecked")
@@ -19,9 +27,14 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         btnEliminarUs = new javax.swing.JButton();
         btnRecargar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
-        txtNombreUs = new javax.swing.JLabel();
+        lblNombreUs = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Sistema administrador de usuarios");
@@ -48,8 +61,14 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         btnRecargar.setText("Recargar Tabla");
 
         btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
-        txtNombreUs.setText("jLabel2");
+        lblNombreUs.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblNombreUs.setText("jLabel2");
 
         javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
         pnlPrincipal.setLayout(pnlPrincipalLayout);
@@ -60,8 +79,8 @@ public class PrincipalAdmin extends javax.swing.JFrame {
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1)
-                        .addGap(90, 90, 90)
-                        .addComponent(txtNombreUs))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblNombreUs, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlPrincipalLayout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -83,7 +102,7 @@ public class PrincipalAdmin extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(txtNombreUs)))
+                        .addComponent(lblNombreUs)))
                 .addGap(31, 31, 31)
                 .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -118,6 +137,15 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        lblNombreUs.setText(user.getNombreUsuario());
+    }//GEN-LAST:event_formWindowOpened
+
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -129,7 +157,7 @@ public class PrincipalAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblNombreUs;
     private javax.swing.JPanel pnlPrincipal;
-    private javax.swing.JLabel txtNombreUs;
     // End of variables declaration//GEN-END:variables
 }

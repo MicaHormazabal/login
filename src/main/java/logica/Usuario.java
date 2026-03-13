@@ -61,5 +61,4 @@ public class Usuario implements Serializable {
         this.unRol = unRol;
     }
     
-    
 }
