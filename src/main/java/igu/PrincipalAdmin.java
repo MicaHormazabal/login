@@ -1,6 +1,8 @@
 package igu;
 
 import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import logica.Controladora;
 import logica.Usuario;
@@ -52,6 +54,7 @@ public class PrincipalAdmin extends javax.swing.JFrame {
 
             }
         ));
+        tblUsuarios.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tblUsuarios);
 
         btnNuevoUs.setText("Crear Nuevo Usuario");
@@ -62,8 +65,18 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         });
 
         btnEditarUs.setText("Editar Usuario");
+        btnEditarUs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarUsActionPerformed(evt);
+            }
+        });
 
         btnEliminarUs.setText("Eliminar Usuario");
+        btnEliminarUs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarUsActionPerformed(evt);
+            }
+        });
 
         btnRecargar.setText("Recargar Tabla");
         btnRecargar.addActionListener(new java.awt.event.ActionListener() {
@@ -169,6 +182,52 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         pAltaUsuario.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnNuevoUsActionPerformed
 
+    private void btnEditarUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarUsActionPerformed
+
+        if(tblUsuarios.getRowCount() > 0) {
+            
+            if(tblUsuarios.getSelectedRow() != -1) {
+               
+                int id_user = Integer.parseInt(String.valueOf(tblUsuarios.getValueAt(tblUsuarios.getSelectedRow(), 0)));
+            
+                EditarUsuario pantEditar = new EditarUsuario(control, id_user);
+                pantEditar.setVisible(true);
+                pantEditar.setLocationRelativeTo(null);
+                
+            } else {                
+                
+                mostrarMensaje("No se seleccionó ningún registro", "error", "Error");
+            }
+        
+        } else {
+            mostrarMensaje("No hay registros en la tabla", "error", "Error");
+        }
+    }//GEN-LAST:event_btnEditarUsActionPerformed
+
+    private void btnEliminarUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarUsActionPerformed
+        
+        if(tblUsuarios.getRowCount() > 0) {
+            
+            if(tblUsuarios.getSelectedRow() != -1) {
+               
+                int id_user = Integer.parseInt(String.valueOf(tblUsuarios.getValueAt(tblUsuarios.getSelectedRow(), 0)));
+            
+                control.eliminarUsuario(id_user);
+                
+                mostrarMensaje("Se eliminó el usuario correctamente", "info", "Eliminación");
+                
+                cargarTabla();
+                
+            } else {                
+                
+                mostrarMensaje("No se seleccionó ningún registro", "error", "Error");
+            }
+        
+        } else {
+            mostrarMensaje("No hay registros en la tabla", "error", "Error");
+        }
+    }//GEN-LAST:event_btnEliminarUsActionPerformed
+
     
     private void cargarTabla() {
 
@@ -196,6 +255,21 @@ public class PrincipalAdmin extends javax.swing.JFrame {
         }
         
         tblUsuarios.setModel(modeloTabla);
+    }
+ 
+    public void mostrarMensaje(String mensaje, String tipo, String titulo) {
+        
+        JOptionPane optionPane = new JOptionPane(mensaje);
+        
+        if (tipo.equals("info")) {
+            optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+        } else if (tipo.equals("error")) {
+            optionPane.setMessageType(JOptionPane.ERROR_MESSAGE);    
+        }
+        
+        JDialog dialog = optionPane.createDialog(titulo);
+        dialog.setAlwaysOnTop(true);
+        dialog.setVisible(true);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

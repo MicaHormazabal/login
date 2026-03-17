@@ -66,4 +66,28 @@ public class Controladora {
         }
         return null;
     }
+
+    public void eliminarUsuario(int id_user) {
+
+        controlPersis.eliminarUsuario(id_user);
+    }
+
+    public Usuario traerUsuario(int id_usuario) {
+        
+        return controlPersis.traerUsuario(id_usuario);
+    }
+
+    public void editarUsuario(Usuario user, String nombreUsuario, String contra, String rolSelec) {
+
+        user.setNombreUsuario(nombreUsuario);
+        user.setContrasenia(contra);
+        
+        Rol rol = new Rol();
+        rol = this.traerRol(rolSelec);
+        if (rol != null) {
+            user.setUnRol(rol);
+        }
+        
+        controlPersis.editarUsuario(user);
+    }
 }
