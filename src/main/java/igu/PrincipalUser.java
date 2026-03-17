@@ -1,6 +1,8 @@
 package igu;
 
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 import logica.Controladora;
 import logica.Usuario;
 
@@ -22,7 +24,7 @@ public class PrincipalUser extends javax.swing.JFrame {
         pnlPrincipal = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblUsuarios = new javax.swing.JTable();
         btnRecargar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
         lblNombreUs = new javax.swing.JLabel();
@@ -37,7 +39,7 @@ public class PrincipalUser extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Sistema administrador de usuarios");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -48,9 +50,14 @@ public class PrincipalUser extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblUsuarios);
 
         btnRecargar.setText("Recargar Tabla");
+        btnRecargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecargarActionPerformed(evt);
+            }
+        });
 
         btnSalir.setText("Salir");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -70,7 +77,6 @@ public class PrincipalUser extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(lblNombreUs, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -132,17 +138,50 @@ public class PrincipalUser extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
         lblNombreUs.setText(user.getNombreUsuario());
+        cargarTabla();
     }//GEN-LAST:event_formWindowOpened
 
-    
+    private void btnRecargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecargarActionPerformed
+
+        cargarTabla();
+    }//GEN-LAST:event_btnRecargarActionPerformed
+
+    private void cargarTabla() {
+
+        DefaultTableModel modeloTabla = new DefaultTableModel() {
+        
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        
+        String titulos[] = {"Id", "Usuario", "Rol"};
+        modeloTabla.setColumnIdentifiers(titulos);
+        
+        List<Usuario> listaUsuarios = control.traerUsuarios();
+        
+        if (listaUsuarios != null) {
+            
+            for(Usuario user : listaUsuarios) {
+                
+                Object[] objeto = {user.getId(), user.getNombreUsuario(), user.getUnRol().getNombreRol()};
+                
+                modeloTabla.addRow(objeto);
+            }
+        }
+        
+        tblUsuarios.setModel(modeloTabla);
+    }    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRecargar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblNombreUs;
     private javax.swing.JPanel pnlPrincipal;
+    private javax.swing.JTable tblUsuarios;
     // End of variables declaration//GEN-END:variables
+
 }
